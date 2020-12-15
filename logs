@@ -1,0 +1,13 @@
+2020-12-15 13:35:55 INFO  MultiThreadFileSearch:20 - ------------MultiThreadFileSearch-----------
+2020-12-15 13:35:55 INFO  MultiThreadFileSearch:21 - Directory path: /home/danil
+2020-12-15 13:35:55 INFO  MultiThreadFileSearch:22 - Search pattern: DockerFile
+2020-12-15 13:35:55 INFO  MultiThreadFileSearch:31 - --------------Search Completed--------------
+2020-12-15 13:35:55 INFO  MultiThreadFileSearch:32 - Time elapsed: 657 ms
+2020-12-15 13:35:55 INFO  MultiThreadFileSearch:35 - Files were found: 5
+2020-12-15 13:35:55 INFO  MultiThreadFileSearch:37 - Found a file on the path: /home/danil/Загрузки/lab11/2/client/Dockerfile
+2020-12-15 13:35:55 INFO  MultiThreadFileSearch:37 - Found a file on the path: /home/danil/Загрузки/lab11/2/client2/Dockerfile
+2020-12-15 13:35:55 INFO  MultiThreadFileSearch:37 - Found a file on the path: /home/danil/Загрузки/lab11/2/server/Dockerfile
+2020-12-15 13:35:55 INFO  MultiThreadFileSearch:37 - Found a file on the path: /home/danil/Загрузки/lab11/task1/Dockerfile
+2020-12-15 13:35:55 INFO  MultiThreadFileSearch:37 - Found a file on the path: /home/danil/Загрузки/lab11/task4/Dockerfile
+2020-12-15 13:35:55 INFO  MultiThreadFileSearch:50 - --------------------END----------------------
+

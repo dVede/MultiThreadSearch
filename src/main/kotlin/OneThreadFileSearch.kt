@@ -13,7 +13,6 @@ class OneThreadFileSearch {
         private val result: ArrayList<File> = ArrayList()
         private val result2: ArrayList<Path> = ArrayList()
 
-        @JvmStatic
         fun searchFile1(path: String, pattern: String) : ArrayList<File> {
             val dir = File(path)
             if (dir.listFiles() != null) {
@@ -29,7 +28,6 @@ class OneThreadFileSearch {
             return result
         }
 
-        @JvmStatic
         fun searchFile2(path: String, pattern: String) : ArrayList<File>  {
             val directory = File(path)
             val stack: Stack<File> = Stack()
@@ -46,7 +44,6 @@ class OneThreadFileSearch {
             return result
         }
 
-        @JvmStatic
         fun searchFile3(path: String, pattern: String) : ArrayList<File> {
             File(path).walk()
                 .filter { it.isFile }
@@ -55,7 +52,6 @@ class OneThreadFileSearch {
             return result
         }
 
-        @JvmStatic
         fun searchFile4(path: String, pattern: String) : ArrayList<Path> {
             val dir = Paths.get(path)
             val stack: Stack<Path> = Stack()

@@ -10,14 +10,12 @@ import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 
 @BenchmarkMode(Mode.All)
 @Warmup(iterations = 10)
 @Measurement(iterations = 100, batchSize = 10)
 public class BMTest {
-
-    private static final int N_THREADS = Runtime.getRuntime().availableProcessors() + 1;
 
     @State(Scope.Benchmark)
     public static class BenchMarkState {
@@ -27,13 +25,13 @@ public class BMTest {
 
     @Benchmark
     public void multiThreadFileSearch(Blackhole blackhole, BenchMarkState state) {
-        ArrayList<File> result = MultiThreadFileSearch.Companion.grep(state.file, state.pattern);
+        List<File> result = MultiThreadFileSearch.Companion.grep(state.file, state.pattern);
         blackhole.consume(result);
     }
 
     @Benchmark
     public void oneThreadFileSearch(Blackhole blackhole, BenchMarkState state) {
-        ArrayList<File> result = OneThreadFileSearch.Companion.searchFile2(state.file, state.pattern);
+        List<File> result = OneThreadFileSearch.Companion.searchFile2(state.file, state.pattern);
         blackhole.consume(result);
     }
 

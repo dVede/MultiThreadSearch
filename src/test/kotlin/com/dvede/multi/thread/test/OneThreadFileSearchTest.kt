@@ -12,31 +12,33 @@ import java.nio.file.Path
 internal class OneThreadFileSearchTest {
     @Test
     fun searchTest(){
-        val result1: ArrayList<File> = searchFile1(System.getProperty("user.home"), "Dockerfile")
-        val result2: ArrayList<File> = searchFile2(System.getProperty("user.home"), "Dockerfile")
-        val result3: ArrayList<File> = searchFile3(System.getProperty("user.home"), "Dockerfile")
-        val result4: ArrayList<Path> = searchFile4(System.getProperty("user.home"), "Dockerfile")
-        assertEquals(result1.sort(), result2.sort())
-        assertEquals(result1.sort(), result3.sort())
-        assertEquals(result1.sort(), result4.sort())
-        assertEquals(result2.sort(), result3.sort())
-        assertEquals(result2.sort(), result4.sort())
-        assertEquals(result3.sort(), result4.sort())
+        val result1: List<File> = searchFile1(System.getProperty("user.home"), "Dockerfile")
+        val result2: List<File> = searchFile2(System.getProperty("user.home"), "Dockerfile")
+        val result3: List<File> = searchFile3(System.getProperty("user.home"), "Dockerfile")
+        val result4: List<Path> = searchFile4(System.getProperty("user.home"), "Dockerfile")
+
+        assertEquals(result1.sorted(), result2.sorted())
+        assertEquals(result1.sorted(), result3.sorted())
+        assertEquals(result1.sorted().toString(), result4.sorted().toString())
+        assertEquals(result2.sorted(), result3.sorted())
+        assertEquals(result2.sorted().toString(), result4.sorted().toString())
+        assertEquals(result3.sorted().toString(), result4.sorted().toString())
     }
 
     @Test
     fun searchIncorrectPathTest(){
-        val excepted: ArrayList<File> = ArrayList()
-        val result1: ArrayList<File> = searchFile1("/homa", "Dockerfile")
-        val result2: ArrayList<File> = searchFile2("/homa", "Dockerfile")
-        val result3: ArrayList<File> = searchFile3("/homa", "Dockerfile")
-        val result4: ArrayList<Path> = searchFile4("/homa", "Dockerfile")
-        assertEquals(result1.sort(), excepted.sort())
-        assertEquals(result1.sort(), result2.sort())
-        assertEquals(result1.sort(), result3.sort())
-        assertEquals(result1.sort(), result4.sort())
-        assertEquals(result2.sort(), result3.sort())
-        assertEquals(result2.sort(), result4.sort())
-        assertEquals(result3.sort(), result4.sort())
+        val excepted: List<File> = emptyList()
+        val result1: List<File> = searchFile1("/homa", "Dockerfile")
+        val result2: List<File> = searchFile2("/homa", "Dockerfile")
+        val result3: List<File> = searchFile3("/homa", "Dockerfile")
+        val result4: List<Path> = searchFile4("/homa", "Dockerfile")
+        print(result1)
+        assertEquals(result1, excepted)
+        assertEquals(result1, result2)
+        assertEquals(result1, result3)
+        assertEquals(result1, result4)
+        assertEquals(result2, result3)
+        assertEquals(result2, result4)
+        assertEquals(result3, result4)
     }
 }

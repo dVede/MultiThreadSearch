@@ -4,35 +4,37 @@ import org.apache.log4j.Logger
 import java.io.File
 import java.util.*
 import java.util.concurrent.LinkedBlockingQueue
+import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
-import kotlin.collections.ArrayList
 
 class MultiThreadFileSearch {
     companion object {
         private val N_THREADS = Runtime.getRuntime().availableProcessors() + 1
         private val log: Logger = Logger.getLogger(MultiThreadFileSearch::class.java)
         private var files1: MutableList<File> = Collections.synchronizedList(mutableListOf<File>())
-        private lateinit var pool: MyThreadPoolExecutor
+        private var inv : InverseSemaphore = InverseSemaphore()
+        private lateinit var pool: ThreadPoolExecutor
 
-        fun grep(path: String, pattern: String): ArrayList<File> {
-            val array: ArrayList<File> = ArrayList()
+        fun grep(path: String, pattern: String): List<File> {
             log.info("------------MultiThreadFileSearch-----------")
             log.info("Directory path: $path")
             log.info("Search pattern: $pattern")
             val dir = File(path)
             when {
                 dir.exists() -> {
-                    pool = MyThreadPoolExecutor(N_THREADS, N_THREADS, 60L, TimeUnit.SECONDS, LinkedBlockingQueue())
+                    files1.clear()
+                    pool = ThreadPoolExecutor(N_THREADS, N_THREADS, 60L, TimeUnit.SECONDS, LinkedBlockingQueue())
+                    inv.beforeSubmit()
                     val startTime = System.currentTimeMillis()
                     fileSearch(dir, pattern)
-                    while (!pool.isShutdown) { }
+                    inv.awaitCompletion()
+                    pool.shutdownNow()
                     val endTime = System.currentTimeMillis() - startTime
                     log.info("--------------Search Completed--------------")
                     log.info("Time elapsed: $endTime ms")
-                    array.addAll(files1)
-                    array.sort()
-                    log.info("Files were found: ${array.size}")
-                    array.forEach {
+                    log.info("Files were found: ${files1.size}")
+                    files1.sort()
+                    files1.forEach {
                         log.info("Found a file on the path: $it")
                     }
                 }
@@ -45,9 +47,8 @@ class MultiThreadFileSearch {
                     log.error("Directory with this path was not found.")
                 }
             }
-            files1.clear()
-            log.info("--------------------END----------------------\n")
-            return array
+            log.info("--------------------END----------------------" + System.lineSeparator())
+            return files1.toList()
         }
 
         private fun fileSearch(dir: File, pattern: String) {
@@ -55,11 +56,13 @@ class MultiThreadFileSearch {
                 val files: Array<File> = dir.listFiles()!!
                 for (i in files.indices) {
                     if (files[i].isDirectory) {
-                        pool.execute { fileSearch(files[i], pattern) }
+                        inv.beforeSubmit()
+                        pool.submit{ fileSearch(files[i], pattern) }
                     } else if (files[i].name.contains(pattern, ignoreCase = true))
                         files1.add(files[i])
                 }
             }
+            inv.taskCompleted()
         }
     }
 }

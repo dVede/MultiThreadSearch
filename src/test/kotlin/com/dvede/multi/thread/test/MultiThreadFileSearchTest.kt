@@ -10,16 +10,16 @@ internal class MultiThreadFileSearchTest {
 
     @Test
     fun fileSearchTest(){
-        val result1: ArrayList<File> = MultiThreadFileSearch.grep(System.getProperty("user.home"), "Dockerfile")
+        val result1: List<File> = MultiThreadFileSearch.grep(System.getProperty("user.home"), "Dockerfile")
         MultiThreadFileSearch.grep(System.getProperty("user.home"), "Dockerfile")
-        val result3: ArrayList<File> = searchFile2(System.getProperty("user.home"), "Dockerfile")
-        assertEquals(result1.sort(), result3.sort())
+        val result3: List<File> = searchFile2(System.getProperty("user.home"), "Dockerfile")
+        assertEquals(result1, result3.sorted())
     }
 
     @Test
     fun fileSearchIncorrectPathTest(){
-        val result1: ArrayList<File> = MultiThreadFileSearch.grep("/david", "Dockerfile")
-        val result2: ArrayList<File> = searchFile2("/david", "Dockerfile")
-        assertEquals(result1.sort(), result2.sort())
+        val result1: List<File> = MultiThreadFileSearch.grep("/david", "Dockerfile")
+        val result2: List<File> = searchFile2("/david", "Dockerfile")
+        assertEquals(result1, result2.sorted())
     }
 }

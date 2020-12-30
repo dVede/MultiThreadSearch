@@ -28,13 +28,13 @@ class OneThreadFileSearch {
         fun searchFile2(path: String, pattern: String) : List<File>  {
             val result = arrayListOf<File>()
             val directory = File(path)
-            val stack: Stack<File> = Stack()
-            stack.push(directory)
-            while (!stack.isEmpty()) {
-                val child: File = stack.pop()
+            val deque: Deque<File> = ArrayDeque()
+            deque.push(directory)
+            while (!deque.isEmpty()) {
+                val child: File = deque.pop()
                 if (child.isDirectory) {
                     child.listFiles()?.forEach { f ->
-                        stack.push(f)
+                        deque.push(f)
                     }
                 } else if (child.name.contains(pattern, ignoreCase = true))
                     result.add(child)
